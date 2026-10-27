@@ -9,6 +9,7 @@ import { JsonLd } from '@/components/Seo';
 import { Analytics } from '@/components/Analytics';
 import { SiteTools } from '@/components/SiteTools';
 import { Flash } from '@/components/Flash';
+import { Motion } from '@/components/Motion';
 import { prefsScript } from '@/components/Prefs';
 import { Suspense } from 'react';
 
@@ -58,7 +59,7 @@ export default async function Layout({ children, params }: { children: React.Rea
           <Header lang={lang} />
           <main id="main" tabIndex={-1}>{children}</main>
           <Footer lang={lang} />
-          <Suspense fallback={null}><Flash lang={lang} /></Suspense>
+          <Suspense fallback={null}><Flash lang={lang} /><Motion /></Suspense>
         </CartProvider>
         <SiteTools lang={lang} />
         <Analytics lang={lang} />
