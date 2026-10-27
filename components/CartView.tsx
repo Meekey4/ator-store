@@ -71,11 +71,11 @@ export function CartView({ lang, info, mode, me = null }: { lang: Lang; info: In
           </div>
         ))}
       </div>
-      <div className="glass pad">
+      <div className="glass pad beam">
         <div className="sumrow"><span className="muted">{d.subtotal}</span><span className="num">{bhd(total, lang)}</span></div>
         <div className="sumrow big"><span>{d.total}</span><span className="num">{bhd(total, lang)}</span></div>
         {mode === 'cart' ? (
-          <Link className="btn primary block" style={{ marginTop: 18 }} href={`/${lang}/checkout`}>{d.checkout}</Link>
+          <Link className="btn primary block shimmer" style={{ marginTop: 18 }} href={`/${lang}/checkout`}>{d.checkout}</Link>
         ) : (
           <form ref={formRef} onSubmit={pay} onInput={(e) => { const f = e.currentTarget; try { localStorage.setItem(DRAFT, JSON.stringify({ name: (f.elements.namedItem('name') as HTMLInputElement).value, email: (f.elements.namedItem('email') as HTMLInputElement).value, phone: (f.elements.namedItem('phone') as HTMLInputElement).value })); } catch { /* ignore */ } }} style={{ marginTop: 20 }}>
             <h3 style={{ marginBottom: 12 }}>{d.yourDetails}</h3>
@@ -88,7 +88,7 @@ export function CartView({ lang, info, mode, me = null }: { lang: Lang; info: In
                 : <>I agree to the <Link href={`/${lang}/info/terms`} target="_blank">Terms</Link> and <Link href={`/${lang}/info/refunds`} target="_blank">Refund policy</Link>, and to ATOR using my details to deliver this order as described in the <Link href={`/${lang}/info/privacy`} target="_blank">Privacy policy</Link>.</>}</span>
             </label>
             {err ? <div className="err" role="alert">{err}</div> : null}
-            <button className="btn primary block" disabled={busy}>{busy ? d.placing : `${d.payNow} · ${bhd(total, lang)}`}</button>
+            <button className="btn primary block shimmer" disabled={busy}>{busy ? d.placing : `${d.payNow} · ${bhd(total, lang)}`}</button>
             <p className="note">{d.payNote}</p>
           </form>
         )}

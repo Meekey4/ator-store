@@ -31,7 +31,7 @@ export function PlanPicker({ lang, slug, name, plans }: { lang: Lang; slug: stri
       <div className="buybar">
         <div className="total"><div className="muted" style={{ fontSize: 13 }}>{d.total}</div><div className="price num" style={{ fontSize: 24 }}>{cur ? bhd(cur.price, lang) : '—'}</div></div>
         <button className="btn ghost" disabled={!can} onClick={() => { add({ slug, planId: sel! }); flash(`${d.added}: ${name}`); }}>{d.addToCart}</button>
-        <button className="btn primary" disabled={!can} onClick={() => { add({ slug, planId: sel! }); router.push(`/${lang}/checkout`); }}>{d.payNow}</button>
+        <button className="btn primary shimmer" disabled={!can} onClick={() => { add({ slug, planId: sel! }); router.push(`/${lang}/checkout`); }}>{d.payNow}</button>
       </div>
     </>
   );

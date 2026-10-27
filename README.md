@@ -32,3 +32,8 @@ Prices are stored in fils (1 BHD = 1000 fils).
 - `NEXT_PUBLIC_BUSINESS_NAME`, `NEXT_PUBLIC_BUSINESS_CR`, `NEXT_PUBLIC_BUSINESS_ADDRESS`, `NEXT_PUBLIC_BUSINESS_EMAIL` — your registered business details, shown in the footer and Terms.
 - `NEXT_PUBLIC_SITE_URL` — set when you add your own domain (used for links, sitemap and share previews).
 - Delivery promise text: `lib/content.ts` → `PROMISE`.
+
+## Animated details (Magic UI)
+The shimmer buttons, border beam, scrolling service strip, rotating product name and counting stats are adapted from [Magic UI](https://magicui.design) (MIT licence), rebuilt without Tailwind in `components/Magic.tsx` and the "Magic UI details" block at the end of `app/globals.css`, using the ATOR palette. They all stop for visitors who turn on "reduce motion".
+- Add `shimmer` to any `btn primary` to give it the shine.
+- Add `beam` to any `glass` card to give it the travelling light.

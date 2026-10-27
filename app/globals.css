@@ -317,3 +317,65 @@ body{zoom:var(--ts,1)}
 .motion .rv{transition:opacity .7s cubic-bezier(.2,.7,.2,1) var(--d,0ms),transform .7s cubic-bezier(.2,.7,.2,1) var(--d,0ms)}
 .motion .card.rv.in:hover{transition:transform .12s linear,border-color .2s,box-shadow .3s}
 @media (prefers-reduced-motion:reduce){.page-in,.hero *,.hero-art img,.pdp .media img,.pdp .media::after{animation:none!important}.card:hover{transform:none}.motion .rv:not(.in){opacity:1;transform:none}.navbar{display:none}}
+
+/* ---------- Magic UI details (magicui.design, MIT) — rebuilt in plain CSS, ATOR palette ---------- */
+@property --beam-a{syntax:"<angle>";initial-value:0deg;inherits:false}
+
+/* Shimmer button: a light sweep plus a slow spark running round the edge */
+.btn.shimmer{position:relative;overflow:hidden;isolation:isolate}
+.btn.shimmer::before{content:"";position:absolute;inset:-1px;z-index:-1;border-radius:inherit;padding:1px;
+  background:conic-gradient(from var(--beam-a),transparent 0 70%,rgba(157,179,181,.95) 82%,#fff 86%,transparent 92%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
+  animation:beam-spin 3.2s linear infinite}
+.btn.shimmer::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.28) 48%,rgba(255,255,255,.05) 56%,transparent 70%);
+  transform:translateX(-120%);animation:shimmer-sweep 3.6s cubic-bezier(.4,0,.2,1) infinite}
+html[dir=rtl] .btn.shimmer::after{animation-name:shimmer-sweep-rtl}
+.btn.shimmer:disabled::before,.btn.shimmer:disabled::after{animation:none;opacity:0}
+@keyframes shimmer-sweep{0%,55%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+@keyframes shimmer-sweep-rtl{0%,55%{transform:translateX(120%)}100%{transform:translateX(-120%)}}
+@keyframes beam-spin{to{--beam-a:360deg}}
+
+/* Border beam: a short beam of light travelling round a card's edge */
+.beam{position:relative}
+.beam::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.5px;pointer-events:none;
+  background:conic-gradient(from var(--beam-a),transparent 0 76%,rgba(52,95,99,.0) 78%,#5E9AA0 88%,#C9DADB 92%,rgba(31,26,78,.0) 97%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
+  animation:beam-spin 6s linear infinite}
+
+/* Word rotate */
+.rotline{font-size:17px;color:var(--muted);margin:-14px 0 24px;display:flex;flex-wrap:wrap;gap:.35em;align-items:baseline}
+.wrot{display:inline-grid;overflow:hidden;vertical-align:bottom}
+.wrot-w{font-weight:700;color:var(--text);background:linear-gradient(90deg,#C9DADB,#5E9AA0);-webkit-background-clip:text;background-clip:text;color:transparent;animation:wrot-in .5s cubic-bezier(.2,.7,.2,1) both}
+:root[data-theme=light] .wrot-w{background:linear-gradient(90deg,#1F1A4E,#2F6B70);-webkit-background-clip:text;background-clip:text}
+@keyframes wrot-in{from{opacity:0;transform:translateY(70%);filter:blur(4px)}to{opacity:1;transform:none;filter:none}}
+
+/* Number ticker stats */
+.stats{list-style:none;margin:26px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:10px 28px}
+.stats li{display:flex;align-items:baseline;gap:8px;color:var(--muted);font-size:14px}
+.stats b{font-size:28px;font-weight:800;color:var(--text);letter-spacing:-.02em}
+.hero .stats{animation:rise .7s cubic-bezier(.2,.7,.2,1) .4s both}
+
+/* Marquee: scrolling strip of services, edges fade out, pauses on hover */
+.mq-wrap{display:grid;gap:12px;margin-top:8px}
+.marquee{overflow:hidden;-webkit-mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.mq-track{display:flex;width:max-content;animation:mq var(--dur,40s) linear infinite}
+.marquee.rev .mq-track{animation-direction:reverse}
+html[dir=rtl] .mq-track{animation-name:mq-rtl}
+.marquee:hover .mq-track,.marquee:focus-within .mq-track{animation-play-state:paused}
+.mq-group{display:flex;gap:12px;padding-inline-end:12px}
+@keyframes mq{to{transform:translateX(-50%)}}
+@keyframes mq-rtl{to{transform:translateX(50%)}}
+.mq-item{display:flex;align-items:center;gap:10px;padding:8px 16px 8px 8px;border-radius:16px;border:1px solid var(--line);background:linear-gradient(140deg,rgba(255,255,255,.07),rgba(255,255,255,.02));backdrop-filter:blur(10px);white-space:nowrap;font-weight:600;font-size:14px;transition:border-color .2s,transform .2s}
+html[dir=rtl] .mq-item{padding:8px 8px 8px 16px}
+.mq-item:hover{border-color:var(--line-2);transform:translateY(-2px)}
+.mq-item img{width:44px;height:44px;border-radius:11px;object-fit:cover}
+:root[data-theme=light] .mq-item{background:#fff}
+
+/* Animated list: How-it-works steps arrive one after another */
+.motion .steps li.rv:not(.in){transform:translateY(26px) scale(.94)}
+
+@media (prefers-reduced-motion:reduce){
+  .btn.shimmer::before,.btn.shimmer::after,.beam::after{display:none}
+  .mq-track{animation:none}.marquee{overflow-x:auto}
+}
