@@ -20,7 +20,7 @@ const URL_ = process.env.DATABASE_URL || process.env.POSTGRES_URL || '';
 export const DEMO = !URL_;
 
 const seedProducts = (): Product[] =>
-  (catalog as Omit<Product, 'sort'>[]).map((p, i) => ({ ...p, image: `/products/${p.slug}.webp?v=2`, sort: i }));
+  (catalog as Omit<Product, 'sort'>[]).map((p, i) => ({ ...p, image: `/products/${p.slug}.webp?v=3`, sort: i }));
 
 /* ---------- memory store (no DATABASE_URL: demo preview, resets on redeploy) ---------- */
 type Mem = { products: Product[]; users: User[]; orders: Order[] };
