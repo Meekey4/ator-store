@@ -1,0 +1,58 @@
+import Link from 'next/link';
+import { listProducts } from '@/lib/db';
+import { CATS, dict, type Lang } from '@/lib/i18n';
+import { ProductCard, inStock } from '@/components/ProductCard';
+
+export const dynamic = 'force-dynamic';
+
+export default async function Home({ params }: { params: Promise<{ lang: Lang }> }) {
+  const { lang } = await params;
+  const d = dict(lang);
+  const products = await listProducts();
+  const featured = [...products].sort((a, b) => Number(inStock(b)) - Number(inStock(a)) || a.sort - b.sort).slice(0, 8);
+  const heroPics = products.filter(inStock).slice(0, 2);
+  return (
+    <div className="wrap">
+      <section className="hero">
+        <div>
+          <span className="eyebrow">ATOR · {lang === 'ar' ? 'البحرين' : 'Bahrain'}</span>
+          <h1 style={{ marginTop: 12 }}>{d.heroTitle}</h1>
+          <p>{d.heroSub}</p>
+          <div className="cta">
+            <Link className="btn primary" href={`/${lang}/shop`}>{d.shopNow}</Link>
+            <a className="btn ghost" href="#cats">{d.browse}</a>
+          </div>
+        </div>
+        <div className="hero-art" aria-hidden>
+          {heroPics.map((p) => <img key={p.slug} src={p.image} alt="" width={600} height={600} />)}
+        </div>
+      </section>
+
+      <div className="perks">
+        {[
+          [d.instant, d.instantSub, <path key="a" d="M13 2 4 14h7l-1 8 9-12h-7z" />],
+          [d.secure, d.secureSub, <g key="b"><rect x="5" y="10" width="14" height="10" rx="2" /><path d="M8 10V7a4 4 0 0 1 8 0v3" /></g>],
+          [d.local, d.localSub, <path key="c" d="M4 5h16v11H9l-5 4z" />],
+        ].map(([h, s, ic], i) => (
+          <div className="perk glass" key={i}>
+            <span className="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round">{ic}</svg></span>
+            <div><h3>{h}</h3><p>{s}</p></div>
+          </div>
+        ))}
+      </div>
+
+      <section className="section" id="cats">
+        <div className="section-h"><h2>{d.browse}</h2></div>
+        <div className="chips">
+          <Link className="chip" href={`/${lang}/shop`}>{d.allProducts}</Link>
+          {Object.entries(CATS).map(([k, v]) => <Link key={k} className="chip" href={`/${lang}/shop?cat=${k}`}>{v[lang]}</Link>)}
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="section-h"><h2>{d.featured}</h2><Link href={`/${lang}/shop`} className="muted">{d.allProducts} →</Link></div>
+        <div className="grid">{featured.map((p) => <ProductCard key={p.slug} p={p} lang={lang} />)}</div>
+      </section>
+    </div>
+  );
+}
