@@ -1,6 +1,5 @@
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
-import { currentUser, isAdmin } from '@/lib/auth';
+import { requireAdmin } from '@/lib/auth';
 import { listProducts } from '@/lib/db';
 import { CATS, t, type Lang } from '@/lib/i18n';
 import { bhd } from '@/lib/money';
@@ -10,7 +9,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function AdminProducts({ params }: { params: Promise<{ lang: Lang }> }) {
   const { lang } = await params;
-  if (!isAdmin(await currentUser())) notFound();
+  await requireAdmin(lang);
   const ar = lang === 'ar';
   const products = await listProducts({ all: true });
   return (

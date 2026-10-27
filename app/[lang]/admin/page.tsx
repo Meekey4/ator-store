@@ -1,7 +1,6 @@
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { currentUser, isAdmin } from '@/lib/auth';
+import { requireAdmin } from '@/lib/auth';
 import { listOrders, listProducts } from '@/lib/db';
 import { paymentsEnabled } from '@/lib/tap';
 import { STATUS, t, type Lang } from '@/lib/i18n';
@@ -14,7 +13,7 @@ export const metadata: Metadata = { title: 'Admin', robots: { index: false } };
 export default async function Admin({ params, searchParams }: { params: Promise<{ lang: Lang }>; searchParams: Promise<{ status?: string }> }) {
   const { lang } = await params;
   const { status } = await searchParams;
-  if (!isAdmin(await currentUser())) notFound();
+  await requireAdmin(lang);
   const ar = lang === 'ar';
   const [orders, all, products] = await Promise.all([listOrders({ status, limit: 200 }), listOrders({ limit: 1000 }), listProducts({ all: true })]);
   const since = Date.now() - 30 * 864e5;

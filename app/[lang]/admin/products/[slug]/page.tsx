@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { currentUser, isAdmin } from '@/lib/auth';
+import { requireAdmin } from '@/lib/auth';
 import { getProduct, type Product } from '@/lib/db';
 import { CATS, TYPES, type Lang } from '@/lib/i18n';
 import { saveProductAdmin } from '../../actions';
@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic';
 export default async function EditProduct({ params, searchParams }: { params: Promise<{ lang: Lang; slug: string }>; searchParams: Promise<{ saved?: string; e?: string }> }) {
   const { lang, slug } = await params;
   const { saved, e } = await searchParams;
-  if (!isAdmin(await currentUser())) notFound();
+  await requireAdmin(lang);
   const isNew = slug === 'new';
   const p: Product | null = isNew ? null : await getProduct(slug);
   if (!isNew && !p) notFound();

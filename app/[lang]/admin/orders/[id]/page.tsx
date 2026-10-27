@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { currentUser, isAdmin } from '@/lib/auth';
+import { requireAdmin } from '@/lib/auth';
 import { getOrder } from '@/lib/db';
 import { STATUS, t, type Lang } from '@/lib/i18n';
 import { bhd } from '@/lib/money';
@@ -12,7 +12,7 @@ export const dynamic = 'force-dynamic';
 export default async function AdminOrder({ params, searchParams }: { params: Promise<{ lang: Lang; id: string }>; searchParams: Promise<{ saved?: string }> }) {
   const { lang, id } = await params;
   const { saved } = await searchParams;
-  if (!isAdmin(await currentUser())) notFound();
+  await requireAdmin(lang);
   const o = await getOrder(id);
   if (!o) notFound();
   const ar = lang === 'ar';

@@ -7,6 +7,8 @@ const MSG: Record<string, { en: string; ar: string }> = {
   welcome: { en: 'Your account is ready. Welcome to ATOR!', ar: 'تم إنشاء حسابك. أهلًا بك في ATOR!' },
   signedin: { en: 'You are signed in.', ar: 'تم تسجيل الدخول.' },
   signedout: { en: 'You are signed out.', ar: 'تم تسجيل الخروج.' },
+  adminsignin: { en: 'Sign in with the admin email to open the admin page.', ar: 'سجّل الدخول ببريد المشرف لفتح صفحة الإدارة.' },
+  noadmin: { en: 'Admin is not set up: add ADMIN_EMAILS in Vercel → Settings → Environment Variables, then redeploy.', ar: 'الإدارة غير مفعّلة: أضف ADMIN_EMAILS في إعدادات Vercel ثم أعد النشر.' },
   saved: { en: 'Changes saved.', ar: 'تم حفظ التغييرات.' },
 };
 
