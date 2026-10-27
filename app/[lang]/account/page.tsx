@@ -5,9 +5,10 @@ import { listOrders } from '@/lib/db';
 import { STATUS, dict, type Lang } from '@/lib/i18n';
 import { bhd } from '@/lib/money';
 import { signIn, signOut, signUp } from './actions';
+import { PasswordInput } from '@/components/PasswordInput';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Account', robots: { index: false } };
+export async function generateMetadata({ params }: { params: Promise<{ lang: Lang }> }): Promise<Metadata> { const { lang } = await params; return { title: lang === 'ar' ? 'حسابي' : 'Your account', description: lang === 'ar' ? 'سجّل الدخول لمتابعة طلباتك وأكوادك.' : 'Sign in to see your orders and activation codes.', robots: { index: false } }; }
 
 export default async function Account({ params, searchParams }: { params: Promise<{ lang: Lang }>; searchParams: Promise<{ mode?: string; e?: string }> }) {
   const { lang } = await params;
@@ -28,7 +29,8 @@ export default async function Account({ params, searchParams }: { params: Promis
             {up ? <label className="field"><span>{d.name}</span><input name="name" required autoComplete="name" /></label> : null}
             <label className="field"><span>{d.email}</span><input name="email" type="email" required autoComplete="email" /></label>
             {up ? <label className="field"><span>{d.phone}</span><input name="phone" type="tel" autoComplete="tel" /></label> : null}
-            <label className="field"><span>{d.password}</span><input name="password" type="password" required minLength={up ? 8 : 1} autoComplete={up ? 'new-password' : 'current-password'} /></label>
+            <label className="field"><span>{d.password}</span><PasswordInput lang={lang} newPassword={up} />{up ? <small id="pw-help" className="faint">{ar ? '8 أحرف على الأقل.' : 'At least 8 characters.'}</small> : null}</label>
+            {up ? <label className="check consent"><input type="checkbox" name="agree" required /><span>{ar ? <>أوافق على <Link href={`/${lang}/info/terms`}>الشروط</Link> و<Link href={`/${lang}/info/privacy`}>سياسة الخصوصية</Link>.</> : <>I agree to the <Link href={`/${lang}/info/terms`}>Terms</Link> and <Link href={`/${lang}/info/privacy`}>Privacy policy</Link>.</>}</span></label> : null}
             {msg ? <div className="err" role="alert">{msg}</div> : null}
             <button className="btn primary block">{up ? d.signUp : d.signIn}</button>
           </form>

@@ -10,7 +10,7 @@ export async function signIn(f: FormData) {
   const u = await findUser(String(f.get('email') || ''));
   if (!u || !(await checkPassword(String(f.get('password') || ''), u.pass))) redirect(`/${lang}/account?e=login`);
   await startSession(u);
-  redirect(`/${lang}/account`);
+  redirect(`/${lang}/account?msg=signedin`);
 }
 
 export async function signUp(f: FormData) {
@@ -23,10 +23,10 @@ export async function signUp(f: FormData) {
   if (await findUser(email)) redirect(`/${lang}/account?mode=up&e=taken`);
   const u = await createUser({ email, name, phone, pass: await hashPassword(pass) });
   await startSession(u);
-  redirect(`/${lang}/account`);
+  redirect(`/${lang}/account?msg=welcome`);
 }
 
 export async function signOut(f: FormData) {
   await endSession();
-  redirect(`/${L(f)}`);
+  redirect(`/${L(f)}?msg=signedout`);
 }

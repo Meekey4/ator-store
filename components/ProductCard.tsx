@@ -18,7 +18,7 @@ export function ProductCard({ p, lang }: { p: Product; lang: Lang }) {
         <div className="brief">{t(p.brief, lang)}</div>
         <div className="row">
           <span className="price num">{from != null ? `${p.plans.length > 1 ? d.from + ' ' : ''}${bhd(from, lang)}` : d.comingSoon}</span>
-          <span className={`tag ${ok ? 'ok' : 'no'}`}>{ok ? d.instant : d.outOfStock}</span>
+          <span className={`tag ${ok ? 'ok' : 'no'}`}>{ok ? d.avail : d.outOfStock}</span>
         </div>
       </div>
     </Link>

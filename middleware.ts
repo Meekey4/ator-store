@@ -3,6 +3,8 @@ import { NextResponse, type NextRequest } from 'next/server';
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   if (/^\/(en|ar)(\/|$)/.test(pathname)) return NextResponse.next();
+  // Files at the site root (service worker, manifest, offline page, icons) are served as they are.
+  if (/^\/[^/]+\.(js|webmanifest|html|png|svg|ico|txt|xml)$/.test(pathname)) return NextResponse.next();
   const pref = req.cookies.get('ator_lang')?.value || (req.headers.get('accept-language') || '').toLowerCase();
   const lang = pref.startsWith('ar') ? 'ar' : 'en';
   const url = req.nextUrl.clone();
@@ -10,4 +12,4 @@ export function middleware(req: NextRequest) {
   return NextResponse.redirect(url);
 }
 
-export const config = { matcher: ['/((?!api|_next|products|brand|favicon.ico|robots.txt|sitemap.xml).*)'] };
+export const config = { matcher: ['/((?!api|_next|products|brand|favicon.ico|robots.txt|sitemap.xml|manifest.webmanifest|sw.js|offline.html).*)'] };

@@ -9,7 +9,7 @@ export function Logo({ id = 'lg', height = 20 }: { id?: string; height?: number 
         <linearGradient id={`${id}s`} x1="0" y1="0" x2="0.55" y2="1"><stop offset="0" stopColor="#1F1A4E" /><stop offset="0.25" stopColor="#3A5F63" /><stop offset="1" stopColor="#070808" /></linearGradient>
         <linearGradient id={`${id}b`} x1="0" y1="0.4" x2="1" y2="0.6"><stop offset="0" stopColor="#1F1A4E" /><stop offset="0.6" stopColor="#3A5F63" /><stop offset="1" stopColor="#070808" /></linearGradient>
       </defs>
-      <path fill="#FFFFFF" d={L} />
+      <path style={{ fill: 'var(--logo-ink, #FFFFFF)' }} d={L} />
       <path fill={`url(#${id}t)`} d="M339.6 0 L339.6 30.8 L431.8 30.8 L401.1 0Z" />
       <path fill={`url(#${id}s)`} d="M308.8 92.3 L308.8 30.8 L339.5 30.8 L339.5 92.3Z" />
       <path fill={`url(#${id}s)`} d="M401.1 92.3 L401.1 30.8 L431.8 30.8 L431.8 92.3Z" />

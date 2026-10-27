@@ -22,7 +22,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   return (
     <C.Provider value={{ lines, add, setQty, clear: () => setLines([]), count: lines.reduce((s, l) => s + l.qty, 0), ready, toast, flash }}>
       {children}
-      {toast ? <div className="toast" role="status">{toast}</div> : null}
+      <div className={toast ? 'toast' : 'sr-only'} role="status" aria-live="polite">{toast}</div>
     </C.Provider>
   );
 }

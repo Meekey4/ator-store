@@ -33,7 +33,7 @@ const en = {
   shopNow: 'Shop now', browse: 'Browse categories', allProducts: 'All products', featured: 'Popular now',
   shop: 'Shop', cart: 'Cart', account: 'Account', admin: 'Admin', search: 'Search products',
   from: 'From', outOfStock: 'Out of stock', comingSoon: 'Coming soon', choosePlan: 'Choose a plan', addToCart: 'Add to cart',
-  added: 'Added to cart', inStock: 'in stock', instant: 'Instant delivery', secure: 'Secure checkout', local: 'Local support',
+  added: 'Added to cart', inStock: 'in stock', instant: 'Fast delivery', avail: 'In stock', secure: 'Secure checkout', local: 'Local support',
   instantSub: 'Most orders delivered within minutes.', secureSub: 'BenefitPay and cards through Tap Payments.', localSub: 'WhatsApp support in Arabic and English.',
   cartEmpty: 'Your cart is empty.', continueShopping: 'Continue shopping', subtotal: 'Subtotal', total: 'Total', remove: 'Remove', checkout: 'Checkout',
   yourDetails: 'Your details', name: 'Full name', email: 'Email', phone: 'Phone (WhatsApp)', password: 'Password',
@@ -44,7 +44,7 @@ const en = {
   payFailed: 'The payment did not go through. You can try again.', tryAgain: 'Try again', thanks: 'Thank you! Your payment was received.',
   signIn: 'Sign in', signUp: 'Create account', signOut: 'Sign out', noAccount: 'New to ATOR?', haveAccount: 'Already have an account?',
   myOrders: 'My orders', noOrders: 'No orders yet.', badLogin: 'Email or password is incorrect.', emailTaken: 'An account with this email already exists.',
-  terms: 'Terms', privacy: 'Privacy', refunds: 'Refund policy', faq: 'FAQ', contact: 'Contact',
+  terms: 'Terms', privacy: 'Privacy', cookies: 'Cookies', cookieSettings: 'Cookie settings', refunds: 'Refund policy', faq: 'FAQ', contact: 'Contact',
   rights: 'All rights reserved.', qty: 'Qty', date: 'Date', items: 'Items', viewOrder: 'View',
 };
 type Dict = typeof en;
@@ -55,7 +55,7 @@ const ar: Dict = {
   shopNow: 'تسوّق الآن', browse: 'تصفح الأقسام', allProducts: 'كل المنتجات', featured: 'الأكثر طلبًا',
   shop: 'المتجر', cart: 'السلة', account: 'حسابي', admin: 'الإدارة', search: 'ابحث عن منتج',
   from: 'من', outOfStock: 'نفدت الكمية', comingSoon: 'قريبًا', choosePlan: 'اختر الباقة', addToCart: 'أضف إلى السلة',
-  added: 'أُضيف إلى السلة', inStock: 'متوفر', instant: 'تسليم فوري', secure: 'دفع آمن', local: 'دعم محلي',
+  added: 'أُضيف إلى السلة', inStock: 'متوفر', instant: 'تسليم سريع', avail: 'متوفر', secure: 'دفع آمن', local: 'دعم محلي',
   instantSub: 'معظم الطلبات تصل خلال دقائق.', secureSub: 'بنفت باي والبطاقات عبر Tap Payments.', localSub: 'دعم عبر واتساب بالعربية والإنجليزية.',
   cartEmpty: 'سلتك فارغة.', continueShopping: 'تابع التسوق', subtotal: 'المجموع الفرعي', total: 'الإجمالي', remove: 'حذف', checkout: 'إتمام الطلب',
   yourDetails: 'بياناتك', name: 'الاسم الكامل', email: 'البريد الإلكتروني', phone: 'الهاتف (واتساب)', password: 'كلمة المرور',
@@ -66,7 +66,7 @@ const ar: Dict = {
   payFailed: 'لم تتم عملية الدفع. يمكنك المحاولة مرة أخرى.', tryAgain: 'حاول مرة أخرى', thanks: 'شكرًا لك! تم استلام الدفع.',
   signIn: 'تسجيل الدخول', signUp: 'إنشاء حساب', signOut: 'تسجيل الخروج', noAccount: 'جديد في ATOR؟', haveAccount: 'لديك حساب؟',
   myOrders: 'طلباتي', noOrders: 'لا توجد طلبات بعد.', badLogin: 'البريد أو كلمة المرور غير صحيحة.', emailTaken: 'يوجد حساب بهذا البريد.',
-  terms: 'الشروط', privacy: 'الخصوصية', refunds: 'سياسة الاسترداد', faq: 'الأسئلة الشائعة', contact: 'تواصل معنا',
+  terms: 'الشروط', privacy: 'الخصوصية', cookies: 'ملفات تعريف الارتباط', cookieSettings: 'إعدادات ملفات تعريف الارتباط', refunds: 'سياسة الاسترداد', faq: 'الأسئلة الشائعة', contact: 'تواصل معنا',
   rights: 'جميع الحقوق محفوظة.', qty: 'الكمية', date: 'التاريخ', items: 'المنتجات', viewOrder: 'عرض',
 };
 export const dict = (l: Lang): Dict => (l === 'ar' ? ar : en);
@@ -87,10 +87,17 @@ export const INFO: Record<string, { title: L10n; body: L10n }> = {
     },
   },
   privacy: {
-    title: { en: 'Privacy', ar: 'الخصوصية' },
+    title: { en: 'Privacy policy', ar: 'سياسة الخصوصية' },
     body: {
-      en: 'We collect your name, email and phone only to process and deliver orders and to contact you about them. Payments are handled by Tap Payments; we never see or store your card details. We do not sell or share your data with third parties.',
-      ar: 'نجمع اسمك وبريدك ورقم هاتفك فقط لمعالجة الطلبات وتسليمها والتواصل معك بشأنها. تتم المدفوعات عبر Tap Payments ولا نطّلع على بيانات بطاقتك ولا نخزنها. لا نبيع بياناتك ولا نشاركها مع أي طرف ثالث.',
+      en: 'What we collect: your name, email and WhatsApp number when you order or create an account, and the items you buy. We collect nothing else about you.\nWhy: only to process your order, deliver your activation details, and contact you about your order.\nPayments: handled entirely by Tap Payments. Your card or BenefitPay details never reach ATOR and we do not store them.\nSharing: we do not sell your data or share it with third parties, except Tap Payments for payment and our hosting provider to run the store.\nHow long we keep it: order records are kept for as long as Bahraini law requires for sales records; account details until you ask us to delete them.\nYour rights: under Bahrain’s Personal Data Protection Law (Law No. 30 of 2018) you can ask to see, correct or delete your personal data. Message us on WhatsApp with your request.\nCookies and storage: see our cookies policy.',
+      ar: 'ما نجمعه: اسمك وبريدك ورقم واتساب عند الطلب أو إنشاء حساب، والمنتجات التي تشتريها. لا نجمع أي شيء آخر عنك.\nلماذا: فقط لمعالجة طلبك وتسليم تفاصيل التفعيل والتواصل معك بشأن طلبك.\nالمدفوعات: تتم بالكامل عبر Tap Payments. لا تصل بيانات بطاقتك أو بنفت باي إلى ATOR ولا نخزنها.\nالمشاركة: لا نبيع بياناتك ولا نشاركها مع أي طرف ثالث، باستثناء Tap Payments للدفع ومزوّد الاستضافة لتشغيل المتجر.\nمدة الاحتفاظ: نحتفظ بسجلات الطلبات للمدة التي يتطلبها القانون البحريني لسجلات المبيعات، وببيانات الحساب حتى تطلب حذفها.\nحقوقك: وفق قانون حماية البيانات الشخصية البحريني (القانون رقم 30 لسنة 2018) يحق لك طلب الاطلاع على بياناتك أو تصحيحها أو حذفها. راسلنا عبر واتساب بطلبك.\nملفات تعريف الارتباط والتخزين: راجع سياسة ملفات تعريف الارتباط.',
+    },
+  },
+  cookies: {
+    title: { en: 'Cookies policy', ar: 'سياسة ملفات تعريف الارتباط' },
+    body: {
+      en: 'Essential (always on): one sign-in cookie that keeps you logged in to your account. Without it you could not see your orders.\nYour browser’s storage (always on, stays on your device): your cart, saved-for-later items, recently viewed products, and a draft of the checkout form so you do not lose what you typed. Nothing in it is sent to us until you place an order.\nAnalytics (only if you accept): if we turn on Google Analytics, it runs only after you click Accept on the cookie banner. It tells us which pages are visited, never who you are. You can change your choice at any time with the “Cookie settings” link in the footer.',
+      ar: 'ضرورية (دائمًا مفعّلة): ملف واحد لتسجيل الدخول يبقيك متصلًا بحسابك. بدونه لن تتمكن من رؤية طلباتك.\nتخزين المتصفح (دائمًا مفعّل ويبقى على جهازك): سلتك والمنتجات المحفوظة والمنتجات التي شاهدتها مؤخرًا ومسودة نموذج الدفع حتى لا تفقد ما كتبته. لا يُرسل إلينا شيء منه حتى تُتم الطلب.\nالتحليلات (فقط إذا وافقت): إذا فعّلنا Google Analytics فلن يعمل إلا بعد ضغطك «موافق» في شريط ملفات تعريف الارتباط. يخبرنا بالصفحات التي تُزار، ولا يحدد هويتك أبدًا. يمكنك تغيير اختيارك في أي وقت من رابط «إعدادات ملفات تعريف الارتباط» في أسفل الصفحة.',
     },
   },
   faq: {

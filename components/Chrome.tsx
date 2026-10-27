@@ -6,6 +6,10 @@ import { currentUser, isAdmin } from '@/lib/auth';
 import { DEMO } from '@/lib/db';
 import { Suspense } from 'react';
 import { LangSwitch } from './LangSwitch';
+import { ThemeToggle, TextSize } from './Prefs';
+import { CookieSettingsLink } from './Analytics';
+import { BUSINESS } from '@/lib/content';
+import { CATS } from '@/lib/i18n';
 
 export async function Header({ lang }: { lang: Lang }) {
   const d = dict(lang);
@@ -25,6 +29,7 @@ export async function Header({ lang }: { lang: Lang }) {
             {isAdmin(u) ? <Link href={`/${lang}/admin`}>{d.admin}</Link> : null}
           </nav>
           <span className="sp" />
+          <ThemeToggle lang={lang} />
           <Suspense fallback={<Link className="iconbtn" href={`/${other}`}>{other === 'ar' ? 'العربية' : 'English'}</Link>}><LangSwitch lang={lang} /></Suspense>
           <Link className="iconbtn" href={`/${lang}/account`} aria-label={d.account}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="8" r="4" /><path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6" /></svg>
@@ -42,21 +47,38 @@ export async function Header({ lang }: { lang: Lang }) {
 
 export function Footer({ lang }: { lang: Lang }) {
   const d = dict(lang);
-  const wa = process.env.NEXT_PUBLIC_WHATSAPP || '';
+  const ar = lang === 'ar';
+  const wa = (process.env.NEXT_PUBLIC_WHATSAPP || '').replace(/\D/g, '');
   return (
     <footer className="ftr">
-      <div className="wrap">
-        <div style={{ display: 'grid', gap: 8 }}>
+      <div className="wrap ftr-grid">
+        <div className="ftr-brand">
           <Logo id="ft" height={18} />
           <span>{d.tagline}</span>
-          <span className="faint">© {new Date().getFullYear()} ATOR · {d.rights}</span>
+          <span className="faint">
+            © {new Date().getFullYear()} {BUSINESS.name}{BUSINESS.cr ? ` · ${ar ? 'س.ت' : 'CR'} ${BUSINESS.cr}` : ''} · {BUSINESS.address || (ar ? 'مملكة البحرين' : 'Kingdom of Bahrain')}
+          </span>
+          <TextSize lang={lang} />
+          {BUSINESS.email || wa ? <span className="faint">{BUSINESS.email}{BUSINESS.email && wa ? ' · ' : ''}{wa ? <a href={`https://wa.me/${wa}`} target="_blank" rel="noreferrer">WhatsApp +{wa}</a> : null}</span> : null}
         </div>
-        <nav>
+        <nav aria-label={d.shop}>
+          <b>{d.shop}</b>
+          <Link href={`/${lang}/shop`}>{d.allProducts}</Link>
+          {Object.entries(CATS).map(([k, v]) => <Link key={k} href={`/${lang}/shop?cat=${k}`}>{v[lang]}</Link>)}
+        </nav>
+        <nav aria-label={ar ? 'المساعدة' : 'Help'}>
+          <b>{ar ? 'المساعدة' : 'Help'}</b>
+          <Link href={`/${lang}/info/faq`}>{d.faq}</Link>
+          <Link href={`/${lang}/account`}>{d.myOrders}</Link>
+          {wa ? <a href={`https://wa.me/${wa}`} target="_blank" rel="noreferrer">{d.contact} · WhatsApp</a> : null}
+        </nav>
+        <nav aria-label={ar ? 'السياسات' : 'Policies'}>
+          <b>{ar ? 'السياسات' : 'Policies'}</b>
           <Link href={`/${lang}/info/terms`}>{d.terms}</Link>
           <Link href={`/${lang}/info/refunds`}>{d.refunds}</Link>
           <Link href={`/${lang}/info/privacy`}>{d.privacy}</Link>
-          <Link href={`/${lang}/info/faq`}>{d.faq}</Link>
-          {wa ? <a href={`https://wa.me/${wa.replace(/\D/g, '')}`} target="_blank" rel="noreferrer">{d.contact} · WhatsApp</a> : null}
+          <Link href={`/${lang}/info/cookies`}>{d.cookies}</Link>
+          <CookieSettingsLink label={d.cookieSettings} />
         </nav>
       </div>
     </footer>

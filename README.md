@@ -25,3 +25,10 @@ npm install
 npm run dev
 ```
 Prices are stored in fils (1 BHD = 1000 fils).
+
+## Optional settings (Vercel → Settings → Environment Variables, then redeploy)
+- `NEXT_PUBLIC_GA_ID` — Google Analytics 4 ID (G-XXXXXXX). A cookie banner appears and GA loads only after the visitor accepts.
+- `NEXT_PUBLIC_WHATSAPP` — support number, digits with country code.
+- `NEXT_PUBLIC_BUSINESS_NAME`, `NEXT_PUBLIC_BUSINESS_CR`, `NEXT_PUBLIC_BUSINESS_ADDRESS`, `NEXT_PUBLIC_BUSINESS_EMAIL` — your registered business details, shown in the footer and Terms.
+- `NEXT_PUBLIC_SITE_URL` — set when you add your own domain (used for links, sitemap and share previews).
+- Delivery promise text: `lib/content.ts` → `PROMISE`.

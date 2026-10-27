@@ -2,6 +2,10 @@ import Link from 'next/link';
 import { listProducts } from '@/lib/db';
 import { CATS, dict, type Lang } from '@/lib/i18n';
 import { ProductCard, inStock } from '@/components/ProductCard';
+import { Faq } from '@/components/Faq';
+import { Remembered } from '@/components/Remembered';
+import { fromPrice } from '@/components/ProductCard';
+import { PROMISE, STEPS, WHATSAPP } from '@/lib/content';
 
 export const dynamic = 'force-dynamic';
 
@@ -22,9 +26,10 @@ export default async function Home({ params }: { params: Promise<{ lang: Lang }>
             <Link className="btn primary" href={`/${lang}/shop`}>{d.shopNow}</Link>
             <a className="btn ghost" href="#cats">{d.browse}</a>
           </div>
+          <p className="promise"><span className="dot" aria-hidden="true" />{PROMISE.title[lang]} · {PROMISE.hours[lang]}</p>
         </div>
-        <div className="hero-art" aria-hidden>
-          {heroPics.map((p) => <img key={p.slug} src={p.image} alt="" width={600} height={600} />)}
+        <div className="hero-art">
+          {heroPics.map((p) => <img key={p.slug} src={p.image} alt={`${p.name[lang]} — ATOR`} width={600} height={600} />)}
         </div>
       </section>
 
@@ -53,6 +58,28 @@ export default async function Home({ params }: { params: Promise<{ lang: Lang }>
         <div className="section-h"><h2>{d.featured}</h2><Link href={`/${lang}/shop`} className="muted">{d.allProducts} →</Link></div>
         <div className="grid">{featured.map((p) => <ProductCard key={p.slug} p={p} lang={lang} />)}</div>
       </section>
+
+      <Remembered lang={lang} products={products.map((p) => ({ slug: p.slug, name: p.name[lang], image: p.image || '', price: fromPrice(p) }))} />
+
+      <section className="section" id="how">
+        <div className="section-h"><h2>{lang === 'ar' ? 'كيف يعمل' : 'How it works'}</h2></div>
+        <ol className="steps">
+          {STEPS.map((st, i) => (
+            <li key={i} className="glass"><span className="n num">{i + 1}</span><h3>{st.title[lang]}</h3><p>{st.body[lang]}</p></li>
+          ))}
+        </ol>
+        <p className="muted" style={{ marginTop: 14 }}>{PROMISE.after[lang]}</p>
+      </section>
+
+      <section className="section" id="faq">
+        <div className="section-h"><h2>{d.faq}</h2><Link href={`/${lang}/info/faq`} className="muted">{lang === 'ar' ? 'كل الأسئلة ←' : 'All questions →'}</Link></div>
+        <Faq lang={lang} />
+      </section>
+
+      <div className="mcta" role="region" aria-label={d.shopNow}>
+        <Link className="btn primary" href={`/${lang}/shop`}>{d.shopNow}</Link>
+        {WHATSAPP ? <a className="btn ghost" href={`https://wa.me/${WHATSAPP}`} target="_blank" rel="noreferrer">WhatsApp</a> : <Link className="btn ghost" href={`/${lang}/info/faq`}>{d.faq}</Link>}
+      </div>
     </div>
   );
 }

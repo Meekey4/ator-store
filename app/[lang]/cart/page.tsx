@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
+import { DESC } from '@/lib/content';
 import { listProducts } from '@/lib/db';
 import { t, type Lang } from '@/lib/i18n';
 import { CartView } from '@/components/CartView';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { title: 'Cart' };
+export async function generateMetadata({ params }: { params: Promise<{ lang: Lang }> }): Promise<Metadata> { const { lang } = await params; return { title: lang === 'ar' ? 'سلة التسوق' : 'Your cart', description: DESC.cart[lang], robots: { index: false } }; }
 
 export default async function CartPage({ params }: { params: Promise<{ lang: Lang }> }) {
   const { lang } = await params;

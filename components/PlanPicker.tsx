@@ -23,7 +23,7 @@ export function PlanPicker({ lang, slug, name, plans }: { lang: Lang; slug: stri
         {plans.map((p) => (
           <button key={p.id} type="button" role="radio" className="plan" aria-checked={sel === p.id} disabled={p.stock <= 0} onClick={() => setSel(p.id)}>
             <span className="radio" />
-            <span className="pl">{p.label}<span className="st">{p.stock > 0 ? (p.stock <= 3 ? `${p.stock} ${d.inStock}` : d.instant) : d.outOfStock}</span></span>
+            <span className="pl">{p.label}<span className="st">{p.stock > 0 ? (p.stock <= 3 ? `${p.stock} ${d.inStock}` : d.avail) : d.outOfStock}</span></span>
             <span className="price num">{bhd(p.price, lang)}</span>
           </button>
         ))}
